@@ -34,10 +34,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       latitude: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(10,8)
       },
       longitude: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(11,8)
       },
       createdAt: {
         allowNull: false,

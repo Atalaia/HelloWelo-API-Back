@@ -7,7 +7,7 @@ exports.bikeride_list = (req,res,next)=>{
     })
     .catch(error=>{
         res.status(400);
-        res.json({message : 'il y a rien la'});
+        res.json({message : 'No BikeRides found'});
     })
 }
 
@@ -19,7 +19,7 @@ exports.bikeride_detail = (req,res,next)=>{
     })
     .catch(error=>{
         res.status(400);
-        res.json({message : 'il y a rien la'});
+        res.json({message : 'No BikeRide found'});
     })
 }
 

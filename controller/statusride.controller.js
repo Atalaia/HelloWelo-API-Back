@@ -7,7 +7,7 @@ exports.statusride_list = (req,res,next)=>{
     })
     .catch(error=>{
         res.status(400);
-        res.json({message : 'No Ride Status Found'});
+        res.json({message : 'No Ride Status found'});
     })
 }
 
@@ -19,7 +19,7 @@ exports.statusride_detail = (req,res,next)=>{
     })
     .catch(error=>{
         res.status(400);
-        res.json({message : 'No Ride Status Found'});
+        res.json({message : 'No Ride Status found'});
     })
 }
 

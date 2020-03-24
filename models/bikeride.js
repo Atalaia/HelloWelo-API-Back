@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     time: DataTypes.TIME,
     numberKm: DataTypes.FLOAT,
     description: DataTypes.TEXT,
-    meetingPoint: DataTypes.STRING,
+    meetingPoint: DataTypes.TEXT,
+    itinerary: DataTypes.TEXT,
     numberMaxParticipants: DataTypes.INTEGER
   }, {});
   BikeRide.associate = function(models) {

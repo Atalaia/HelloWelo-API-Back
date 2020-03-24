@@ -28,8 +28,11 @@ module.exports = {
         allowNull: false
       },
       meetingPoint: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false
+      },
+      itinerary: {
+        type: Sequelize.TEXT
       },
       numberMaxParticipants: {
         type: Sequelize.INTEGER,

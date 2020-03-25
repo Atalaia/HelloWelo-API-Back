@@ -13,6 +13,7 @@ var countriesRouter = require('./routes/countries');
 var statusRidesRouter = require('./routes/statusrides');
 var levelRouter = require('./routes/levels');
 var typeRouter = require('./routes/types');
+var roleRouter = require('./routes/roles');
 
 var app = express();
 require('dotenv').config({path: __dirname + '/.env'});
@@ -36,6 +37,7 @@ app.use('/countries', countriesRouter);
 app.use('/statusrides', statusRidesRouter);
 app.use('/levels', levelRouter);
 app.use('/types', typeRouter);
+app.use('/roles', roleRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

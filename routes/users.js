@@ -6,5 +6,6 @@ router.get('/', user_controller.user_list);
 router.get('/:id', user_controller.user_detail);
 router.post('/signin', user_controller.user_signin);
 router.post('/login', user_controller.user_login);
+router.put('/edit/:id', user_controller.user_edit);
 
 module.exports = router;

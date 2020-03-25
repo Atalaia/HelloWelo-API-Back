@@ -15,6 +15,7 @@ var levelRouter = require('./routes/levels');
 var typeRouter = require('./routes/types');
 var roleRouter = require('./routes/roles');
 var participantRouter = require('./routes/participants');
+var userRoleRouter = require('./routes/userroles');
 
 var app = express();
 require('dotenv').config({ path: __dirname + '/.env' });
@@ -40,6 +41,7 @@ app.use('/levels', levelRouter);
 app.use('/types', typeRouter);
 app.use('/roles', roleRouter);
 app.use('/participants', participantRouter);
+app.use('/userroles', userRoleRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

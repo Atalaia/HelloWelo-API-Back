@@ -36,30 +36,20 @@ exports.user_detail = (req, res, next) => {
  * Enregistrer un utilisateur
  */
 exports.user_signin = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10, (err, hash) => {
-      const newUser = Object.assign(req.body, { password: hash })
-      let email = req.body.email;
-      User.findAll({
-        where: {
-          email: email
-        }
-      })
-  
+    bcrypt.hash(req.body.password, 10,  (err,   hash) => {
+    const newUser = Object.assign(req.body, {password: hash})
+    //Test si le User existe ou pas
+    User.create(newUser)
         .then(user => {
-          if (user.length !== 0) {
-            return res.status(409).json({ message: "Ce mail est deja utilisé, essaie encore" });
-          }
+            res.status(200);
+            res.json(user);
         })
-      User.create(newUser)
-        .then(user => {
-          res.json(user);
-        })
-        .catch(error => {
-          res.status(400);
-          res.json(error);
+        .catch(error=>{
+            res.status(400);
+            res.json(error);
         })
     })
-  }
+}
 
 /**
  * Pour se connecter

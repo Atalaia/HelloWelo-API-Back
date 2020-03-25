@@ -78,19 +78,24 @@ exports.user_login = (req, res, next) => {
  * Pour modifier un User
  */
 exports.user_edit = (req, res, next) => {
+    
     const id = req.params.id;
-    User.update(req.body, {
-        where: {
-            id: id
-        }
-    })
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+        const upUser = Object.assign(req.body, {password: hash})
+        
+        User.update(upUser, {
+            where: {
+                id: id
+            }
+        })
         .then(user => {
-            res.json({ message: `User ${id} est modifie` });
+            res.json({ message: `L'utilisateur ${id} est modifié` });
         })
         .catch(error => {
             res.status(400);
             res.json(error);
         })
+    })
 }
 
 /**

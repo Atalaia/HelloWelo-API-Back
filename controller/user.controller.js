@@ -94,6 +94,26 @@ exports.user_edit = (req, res, next) => {
 }
 
 /**
+ * Route {delete} '/delete/id'
+ * Pour supprimer un user
+ */
+exports.user_delete = (req, res, next) => {
+    const id = req.params.id;
+    User.destroy({
+        where: {
+            id: id
+        }
+    })
+        .then(user => {
+            res.json({ message: "User deleted" });
+        })
+        .catch(error => {
+            res.status(400);
+            res.json(error);
+        })
+}
+
+/**
  * Fonction pour vérifier le mot de passe
  */
 const verifyPassword = (User, req, res) => {

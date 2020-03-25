@@ -15,6 +15,7 @@ var levelRouter = require('./routes/levels');
 var typeRouter = require('./routes/types');
 
 var app = express();
+require('dotenv').config({path: __dirname + '/.env'});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

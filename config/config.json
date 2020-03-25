@@ -1,10 +1,10 @@
 {
   "development": {
     "username": "root",
-    "password": "root",
-    "database": "hellowelo_dev",
+    "password": "",
+    "database": "hellowelo",
     "host": "localhost",
-    "port": "8889",
+    "port": "3308",
     "dialect": "mysql",
     "operatorsAliases": false
   },

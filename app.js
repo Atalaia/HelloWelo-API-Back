@@ -14,9 +14,10 @@ var statusRidesRouter = require('./routes/statusrides');
 var levelRouter = require('./routes/levels');
 var typeRouter = require('./routes/types');
 var roleRouter = require('./routes/roles');
+var participantRouter = require('./routes/participants');
 
 var app = express();
-require('dotenv').config({path: __dirname + '/.env'});
+require('dotenv').config({ path: __dirname + '/.env' });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,14 +39,15 @@ app.use('/statusrides', statusRidesRouter);
 app.use('/levels', levelRouter);
 app.use('/types', typeRouter);
 app.use('/roles', roleRouter);
+app.use('/participants', participantRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     BikeRide.belongsTo(models.RideType, {
       onDelete: "NO ACTION",
       foreignKey: {
-        allowNull: false
+        allowNull: true
       }
     }),
     BikeRide.belongsTo(models.RideLevel, {

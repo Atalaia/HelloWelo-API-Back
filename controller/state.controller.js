@@ -67,4 +67,20 @@ exports.state_delete = (req,res,next) => {
     })
 }
 
+exports.states_by_country = (req,res,next)=>{
+    const id = req.params.id;
+    State.findAll({
+        where: {
+            countryId: id
+        }
+    })
+    .then(statesByCountry => {
+        res.json(statesByCountry);
+    })
+    .catch(error=>{
+        res.status(400);
+        res.json({message : 'No states found'});
+    })
+}
+
 

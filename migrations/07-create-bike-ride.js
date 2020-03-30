@@ -40,7 +40,7 @@ module.exports = {
       },
       rideTypeId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'RideTypes',
           key: 'id'

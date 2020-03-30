@@ -17,6 +17,7 @@ var roleRouter = require('./routes/roles');
 var participantRouter = require('./routes/participants');
 var userRoleRouter = require('./routes/userroles');
 var commentRouter = require('./routes/comments');
+var contactRouter = require('./routes/contacts');
 
 var app = express();
 require('dotenv').config({ path: __dirname + '/.env' });
@@ -44,6 +45,7 @@ app.use('/roles', roleRouter);
 app.use('/participants', participantRouter);
 app.use('/userroles', userRoleRouter);
 app.use('/comments', commentRouter);
+app.use('/contacts', contactRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -148,6 +148,41 @@ exports.bikerides_by_state = (req, res, next) => {
         })
 }
 
+exports.bikerides_by_country = (req, res, next) => {
+    const id = req.params.id;
+    BikeRide.findAll({
+        where: {
+            date: {
+                [Op.gte]: today
+            }
+        },
+        order: [
+            ['date', 'ASC'],
+            ['time', 'ASC']
+        ],
+        include: [
+            {
+                model: City,
+                where: {
+                    [Op.and]:
+                    {
+                        countryId: {
+                            [Op.eq]: id
+                        }
+                    }
+                }
+            }
+        ]
+    })
+        .then(bikeridesByCountry => {
+            res.json(bikeridesByCountry);
+        })
+        .catch(error => {
+            res.status(400);
+            res.json({ message: 'No bike rides found in this country' });
+        })
+}
+
 exports.bikerides_by_date = (req, res, next) => {
     const date = req.params.date;
     BikeRide.findAll({

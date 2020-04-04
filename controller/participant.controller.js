@@ -12,7 +12,7 @@ exports.participant_list = (req,res,next)=>{
 }
 
 exports.participant_detail = (req,res,next)=>{
-    const id = req.params.id
+    const id = req.params.id;
     Participant.findByPk(id)
     .then(participant => {
         res.json(participant);
@@ -64,5 +64,21 @@ exports.participant_delete = (req,res,next) => {
     .catch(error=>{
         res.status(400);
         res.json(error);
+    })
+}
+
+exports.participants_by_bikeride = (req,res,next)=>{
+    const id = req.params.id;
+    Participant.findAll({
+        where: {
+            bikeRideId: id
+        }
+    })
+    .then(participantsByBikeride => {
+        res.json(participantsByBikeride);
+    })
+    .catch(error=>{
+        res.status(400);
+        res.json({message : 'No participants found in this bike ride'});
     })
 }

@@ -37,6 +37,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    })
+    .then(() => {
+      queryInterface.addIndex("Participants", ["bikeRideId", "userId"], {
+        unique: true
+      });
     });
   },
   down: (queryInterface, Sequelize) => {

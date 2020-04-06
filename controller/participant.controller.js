@@ -25,9 +25,10 @@ exports.participant_detail = (req, res, next) => {
 }
 
 exports.participant_add = (req, res, next) => {
+    const bikeRideId = req.body.bikeRideId;
     Participant.create(req.body)
         .then(participant => {
-            BikeRide.findByPk(req.body.bikeRideId)
+            BikeRide.findByPk(bikeRideId)
                 .then(bikeride => {
                     BikeRide.increment({ numberParticipants: 1, where: { id: bikeride.id } })
                         .then(data => res.json('update ok'));
@@ -85,5 +86,21 @@ exports.participants_by_bikeride = (req, res, next) => {
         .catch(error => {
             res.status(400);
             res.json({ message: 'No participants found in this bike ride' });
+        })
+}
+
+exports.bikerides_by_user = (req, res, next) => {
+    const id = req.params.id;
+    Participant.findAll({
+        where: {
+            userId: id
+        }
+    })
+        .then(bikeridesByUser => {
+            res.json(bikeridesByUser);
+        })
+        .catch(error => {
+            res.status(400);
+            res.json({ message: 'No bike rides found for this user' });
         })
 }

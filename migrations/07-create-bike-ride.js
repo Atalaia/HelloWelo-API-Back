@@ -38,6 +38,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      numberParticipants: {
+        type: Sequelize.INTEGER
+      },
       rideTypeId: {
         type: Sequelize.INTEGER,
         allowNull: true,

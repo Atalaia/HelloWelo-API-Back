@@ -9,7 +9,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         isEmail: true
-      }
+      },
+      indexes: [
+        {
+          unique: true,
+          fields: ["email"]
+        }
+      ]    
     },
     password: DataTypes.STRING,
   }, {});

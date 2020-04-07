@@ -1,5 +1,6 @@
 const Participant = require('../models/').Participant;
 const BikeRide = require('../models/').BikeRide;
+const User = require('../models/').User;
 
 exports.participant_list = (req, res, next) => {
     Participant.findAll({})
@@ -94,16 +95,18 @@ exports.participants_by_bikeride = (req, res, next) => {
 
 exports.bikerides_by_user = (req, res, next) => {
     const id = req.params.id;
-    Participant.findAll({
-        where: {
-            UserId: id
+    User.findAll({
+        where: { id: id },
+        include: {
+          model: BikeRide,
+          through: { attributes: [] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
         }
-    })
-    .then(data => {
-        return res.json(data.bikeRideId);
-    })
-        .catch(error => {
+      })
+      .then(movie => {
+            res.json(movie[0]);
+        })
+        .catch(error=>{
             res.status(400);
-            res.json({ message: 'No bike rides found for this user' });
+            res.json({message : 'il y a rien la'});
         })
 }

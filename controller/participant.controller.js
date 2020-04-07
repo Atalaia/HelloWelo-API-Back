@@ -92,30 +92,18 @@ exports.participants_by_bikeride = (req, res, next) => {
         })
 }
 
-xports.bikerides_by_user = (req, res, next) => {
+exports.bikerides_by_user = (req, res, next) => {
     const id = req.params.id;
     Participant.findAll({
         where: {
             UserId: id
         }
     })
-        .then(data => {
-            const bikeRideId = data.BikeRideId;
-            console.log(bikeRideId);
-            Participant.findAll({
-                include: [{
-                    model: BikeRide,
-                    where: {
-                        id: bikeRideId
-                    }
-                }]
-            })
-                .then(data => {
-                    return res.json(data);
-                })
-        })
+    .then(data => {
+        return res.json(data.bikeRideId);
+    })
         .catch(error => {
             res.status(400);
             res.json({ message: 'No bike rides found for this user' });
         })
-    }
+}

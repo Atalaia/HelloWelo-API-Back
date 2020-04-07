@@ -1,5 +1,8 @@
 const Participant = require('../models/').Participant;
 const BikeRide = require('../models/').BikeRide;
+const User = require('../models/').User;
+
+const { Op } = require("sequelize");
 
 exports.participant_list = (req, res, next) => {
     Participant.findAll({})
@@ -25,13 +28,13 @@ exports.participant_detail = (req, res, next) => {
 }
 
 exports.participant_add = (req, res, next) => {
-    const bikeRideId = req.body.bikeRideId;
-    Participant.create(req.body)
-        .then(participant => {
-            BikeRide.findByPk(bikeRideId)
-                .then(bikeride => {
-                    BikeRide.increment({ numberParticipants: 1, where: { id: bikeride.id } })
-                        .then(data => res.json('update ok'));
+    Participant.bulkCreate([req.body]) //Special method about n:m association
+        .then(data => {
+            BikeRide.increment('numberParticipants', { where: { id: req.body.BikeRideId } })
+                .then(data => res.json('update ok'))
+                .catch(error => {
+                    res.status(400);
+                    res.json(error);
                 })
         })
         .catch(error => {
@@ -76,9 +79,17 @@ exports.participant_delete = (req, res, next) => {
 exports.participants_by_bikeride = (req, res, next) => {
     const id = req.params.id;
     Participant.findAll({
-        where: {
-            bikeRideId: id
-        }
+        include: [{
+            model: BikeRide,
+            where: {
+                [Op.and]:
+                {
+                    id: {
+                        [Op.eq]: id
+                    }
+                }
+            }
+        }]
     })
         .then(participantsByBikeride => {
             res.json(participantsByBikeride);
@@ -93,11 +104,24 @@ exports.bikerides_by_user = (req, res, next) => {
     const id = req.params.id;
     Participant.findAll({
         where: {
-            userId: id
+            UserId: id
         }
     })
-        .then(bikeridesByUser => {
-            res.json(bikeridesByUser);
+        .then(data => {
+            const bikeRideId = data.BikeRideId;
+            console.log(bikeRideId);
+
+            Participant.findAll({
+                include: [{
+                    model: BikeRide,
+                    where: {
+                        id: bikeRideId
+                    }
+                }]
+            })
+                .then(data => {
+                    return res.json(data);
+                })
         })
         .catch(error => {
             res.status(400);

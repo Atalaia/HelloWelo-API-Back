@@ -81,7 +81,10 @@ exports.participants_by_bikeride = (req, res, next) => {
         }
     })
         .then(participantsByBikeride => {
-            res.json(participantsByBikeride);
+            BikeRide.findAll({})
+            .then(bikeride => {
+                res.json(bikeride);
+             })
         })
         .catch(error => {
             res.status(400);
@@ -96,8 +99,8 @@ exports.bikerides_by_user = (req, res, next) => {
             userId: id
         }
     })
-        .then(bikeridesByUser => {
-            res.json(bikeridesByUser);
+        .then(BikerideByUser => {
+                res.json(BikerideByUser);
         })
         .catch(error => {
             res.status(400);

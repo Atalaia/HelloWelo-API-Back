@@ -30,7 +30,12 @@ exports.bikeride_list = (req, res, next) => {
 
 exports.bikeride_detail = (req, res, next) => {
     const id = req.params.id
-    BikeRide.findByPk(id)
+    BikeRide.findByPk(id, {
+        include: [{
+            model: City,
+            as: 'City'
+        }]
+    })
         .then(bikeride => {
             res.json(bikeride);
         })

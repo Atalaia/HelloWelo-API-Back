@@ -2,8 +2,6 @@ const Participant = require('../models/').Participant;
 const BikeRide = require('../models/').BikeRide;
 const User = require('../models/').User;
 
-const { Op } = require("sequelize");
-
 exports.participant_list = (req, res, next) => {
     Participant.findAll({})
         .then(participants => {
@@ -92,7 +90,10 @@ exports.participants_by_bikeride = (req, res, next) => {
         }]
     })
         .then(participantsByBikeride => {
-            res.json(participantsByBikeride);
+            BikeRide.findAll({})
+                .then(bikeride => {
+                    res.json(bikeride);
+                })
         })
         .catch(error => {
             res.status(400);
@@ -102,29 +103,18 @@ exports.participants_by_bikeride = (req, res, next) => {
 
 exports.bikerides_by_user = (req, res, next) => {
     const id = req.params.id;
-    Participant.findAll({
-        where: {
-            UserId: id
+    User.findAll({
+        where: { id: id },
+        include: {
+          model: BikeRide,
+          through: { attributes: [] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
         }
-    })
-        .then(data => {
-            const bikeRideId = data.BikeRideId;
-            console.log(bikeRideId);
-
-            Participant.findAll({
-                include: [{
-                    model: BikeRide,
-                    where: {
-                        id: bikeRideId
-                    }
-                }]
-            })
-                .then(data => {
-                    return res.json(data);
-                })
+      })
+      .then(movie => {
+            res.json(movie[0]);
         })
-        .catch(error => {
+        .catch(error=>{
             res.status(400);
-            res.json({ message: 'No bike rides found for this user' });
+            res.json({message : 'il y a rien la'});
         })
 }

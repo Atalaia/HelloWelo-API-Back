@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     numberParticipants: DataTypes.INTEGER
   }, {});
   BikeRide.associate = function(models) {
+    BikeRide.belongsToMany(models.User, {
+      through: 'Participant'
+    });
     // associations can be defined here
     BikeRide.belongsTo(models.RideType, {
       onDelete: "NO ACTION",
@@ -40,5 +43,6 @@ module.exports = (sequelize, DataTypes) => {
     BikeRide.hasMany(models.Participant);
     BikeRide.hasMany(models.Comment);
   };
+
   return BikeRide;
-};
+}

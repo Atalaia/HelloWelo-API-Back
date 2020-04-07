@@ -110,8 +110,8 @@ exports.bikerides_by_user = (req, res, next) => {
           through: { attributes: [] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
         }
       })
-      .then(movie => {
-            res.json(movie[0]);
+      .then(bikeride => {
+            res.json(bikeride[0]);
         })
         .catch(error=>{
             res.status(400);

@@ -1,5 +1,6 @@
 const BikeRide = require('../models/').BikeRide;
 const City = require('../models/').City;
+const User = require('../models/').User;
 
 const { Op } = require("sequelize");
 const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
@@ -17,7 +18,11 @@ exports.bikeride_list = (req, res, next) => {
         order: [
             ['date', 'ASC'],
             ['time', 'ASC']
-        ]
+        ],
+        include: [{
+            model: City,
+            as: City
+        }]
     })
         .then(bikerides => {
             res.json(bikerides);
@@ -29,15 +34,22 @@ exports.bikeride_list = (req, res, next) => {
 }
 
 exports.bikeride_detail = (req, res, next) => {
-    const id = req.params.id
-    BikeRide.findByPk(id, {
-        include: [{
-            model: City,
-            as: 'City'
-        }]
+    const id = req.params.id;
+    BikeRide.findAll({
+        where: { id: id },
+        include: [
+            {
+                model: City,
+                as: City
+            },
+            {
+                model: User,
+                through: { attributes: ['isOrganiser'] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
+            }
+        ]
     })
-        .then(bikeride => {
-            res.json(bikeride);
+        .then(user => {
+            res.json(user[0]);
         })
         .catch(error => {
             res.status(400);

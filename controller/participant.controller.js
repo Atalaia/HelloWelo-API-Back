@@ -2,6 +2,8 @@ const Participant = require('../models/').Participant;
 const BikeRide = require('../models/').BikeRide;
 const User = require('../models/').User;
 
+const { Op } = require("sequelize");
+
 exports.participant_list = (req, res, next) => {
     Participant.findAll({})
         .then(participants => {
@@ -76,24 +78,15 @@ exports.participant_delete = (req, res, next) => {
 
 exports.participants_by_bikeride = (req, res, next) => {
     const id = req.params.id;
-    Participant.findAll({
-        include: [{
-            model: BikeRide,
-            where: {
-                [Op.and]:
-                {
-                    id: {
-                        [Op.eq]: id
-                    }
-                }
-            }
-        }]
+    BikeRide.findAll({
+        where: { id: id },
+        include: {
+            model: User,
+            through: { attributes: ['isOrganiser'] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
+        }
     })
-        .then(participantsByBikeride => {
-            BikeRide.findAll({})
-                .then(bikeride => {
-                    res.json(bikeride);
-                })
+        .then(user => {
+            res.json(user[0]);
         })
         .catch(error => {
             res.status(400);
@@ -106,15 +99,15 @@ exports.bikerides_by_user = (req, res, next) => {
     User.findAll({
         where: { id: id },
         include: {
-          model: BikeRide,
-          through: { attributes: [] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
+            model: BikeRide,
+            through: { attributes: ['isOrganiser'] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
         }
-      })
-      .then(bikeride => {
+    })
+        .then(bikeride => {
             res.json(bikeride[0]);
         })
-        .catch(error=>{
+        .catch(error => {
             res.status(400);
-            res.json({message : 'il y a rien la'});
+            res.json({ message: 'No bike rides found for this user' });
         })
 }

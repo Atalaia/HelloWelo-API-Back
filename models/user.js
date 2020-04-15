@@ -29,7 +29,13 @@ module.exports = (sequelize, DataTypes) => {
     }),
       User.belongsToMany(models.BikeRide, {
         through: 'Participant'
-      });
+      }),
+      // User.belongsToMany(models.BikeRide, {
+      //   through: 'Comment'
+      // }),
+      // User.belongsToMany(models.Role, {
+      //   through: 'UserRole'
+      // });
     User.hasMany(models.Participant);
     User.hasMany(models.Comment);
     User.hasMany(models.UserRole);

@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   BikeRide.associate = function(models) {
     BikeRide.belongsToMany(models.User, {
       through: 'Participant'
-    });
+    }),
+    // BikeRide.belongsToMany(models.User, {
+    //   through: 'Comment'
+    // }),
     // associations can be defined here
     BikeRide.belongsTo(models.RideType, {
       onDelete: "NO ACTION",

@@ -27,6 +27,7 @@ exports.participant_detail = (req, res, next) => {
         })
 }
 
+// add a participant into Participant table and increment number of Participants in BikeRides table
 exports.participant_add = (req, res, next) => {
     Participant.bulkCreate([req.body]) //Special method about n:m association
         .then(data => {
@@ -59,16 +60,24 @@ exports.participant_edit = (req, res, next) => {
         })
 }
 
+// delete a participant into Participant table and decrement number of Participants in BikeRides table
 exports.participant_delete = (req, res, next) => {
-    const id = req.params.id;
+    const bikeRideId = req.params.bikeRideId;
+    const userId = req.params.userId;
+    
     Participant.destroy({
         where: {
-            id: id
+            bikeRideId: bikeRideId,
+            userId: userId
         }
     })
-        .then(participant => {
-            res.status(200);
-            res.json({ message: "Participant deleted" });
+        .then(data => {
+            BikeRide.decrement('numberParticipants', { where: { id: bikeRideId } })
+                .then(data => res.json('Participant deleted'))
+                .catch(error => {
+                    res.status(400);
+                    res.json(error);
+                })
         })
         .catch(error => {
             res.status(400);
@@ -76,6 +85,7 @@ exports.participant_delete = (req, res, next) => {
         })
 }
 
+// getBikeRideById
 exports.participants_by_bikeride = (req, res, next) => {
     const id = req.params.id;
     BikeRide.findAll({
@@ -94,6 +104,7 @@ exports.participants_by_bikeride = (req, res, next) => {
         })
 }
 
+// getUserById
 exports.bikerides_by_user = (req, res, next) => {
     const id = req.params.id;
     User.findAll({

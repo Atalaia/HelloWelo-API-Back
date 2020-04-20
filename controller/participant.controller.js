@@ -3,6 +3,7 @@ const BikeRide = require('../models/').BikeRide;
 const User = require('../models/').User;
 
 const { Op } = require("sequelize");
+const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 
 exports.participant_list = (req, res, next) => {
     Participant.findAll({})
@@ -64,7 +65,7 @@ exports.participant_edit = (req, res, next) => {
 exports.participant_delete = (req, res, next) => {
     const bikeRideId = req.params.bikeRideId;
     const userId = req.params.userId;
-    
+
     Participant.destroy({
         where: {
             bikeRideId: bikeRideId,
@@ -109,10 +110,19 @@ exports.bikerides_by_user = (req, res, next) => {
     const id = req.params.id;
     User.findAll({
         where: { id: id },
-        include: {
+        include: [{
             model: BikeRide,
-            through: { attributes: ['isOrganiser'] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
-        }
+            where: {
+                date: {
+                    [Op.gte]: today
+                }
+            },
+            through: { attributes: ['isOrganiser'] },
+        }],
+        order: [
+            [BikeRide, 'date', 'ASC'],
+            [BikeRide, 'time', 'ASC']
+        ],
     })
         .then(bikeride => {
             res.json(bikeride[0]);

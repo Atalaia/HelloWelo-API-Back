@@ -84,12 +84,17 @@ exports.bikeride_edit = (req, res, next) => {
         })
 }
 
+// delete a given bike ride
 exports.bikeride_delete = (req, res, next) => {
     const id = req.params.id;
     BikeRide.destroy({
         where: {
             id: id
-        }
+        },
+        include: [{
+            model: User,
+            as: User
+        }]
     })
         .then(bikeride => {
             res.status(200);
@@ -101,6 +106,7 @@ exports.bikeride_delete = (req, res, next) => {
         })
 }
 
+// Search bike rides by city
 exports.bikerides_by_city = (req, res, next) => {
     const id = req.params.id;
     BikeRide.findAll({
@@ -130,6 +136,7 @@ exports.bikerides_by_city = (req, res, next) => {
         })
 }
 
+// Search bike rides by state
 exports.bikerides_by_state = (req, res, next) => {
     const id = req.params.id;
     BikeRide.findAll({
@@ -165,6 +172,7 @@ exports.bikerides_by_state = (req, res, next) => {
         })
 }
 
+// Search bike rides by country
 exports.bikerides_by_country = (req, res, next) => {
     const id = req.params.id;
     BikeRide.findAll({
@@ -200,6 +208,7 @@ exports.bikerides_by_country = (req, res, next) => {
         })
 }
 
+// Search bike rides by date
 exports.bikerides_by_date = (req, res, next) => {
     const date = req.params.date;
     BikeRide.findAll({

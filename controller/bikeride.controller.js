@@ -2,16 +2,6 @@ const BikeRide = require('../models/').BikeRide;
 const City = require('../models/').City;
 const User = require('../models/').User;
 
-<<<<<<< HEAD
-exports.bikeride_list = (req,res,next)=>{
-    BikeRide.findAll({})
-    .then(bikerides => {
-        res.json(bikerides);
-    })
-    .catch(error=>{
-        res.status(400);
-        res.json({message : 'No BikeRides found'});
-=======
 const { Op } = require("sequelize");
 const today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 
@@ -33,7 +23,6 @@ exports.bikeride_list = (req, res, next) => {
             model: City,
             as: City
         }]
->>>>>>> maria
     })
         .then(bikerides => {
             res.json(bikerides);
@@ -44,17 +33,6 @@ exports.bikeride_list = (req, res, next) => {
         })
 }
 
-<<<<<<< HEAD
-exports.bikeride_detail = (req,res,next)=>{
-    const id = req.params.id
-    BikeRide.findByPk(id)
-    .then(bikeride => {
-        res.json(bikeride);
-    })
-    .catch(error=>{
-        res.status(400);
-        res.json({message : 'No BikeRide found'});
-=======
 exports.bikeride_detail = (req, res, next) => {
     const id = req.params.id;
     BikeRide.findAll({
@@ -69,7 +47,6 @@ exports.bikeride_detail = (req, res, next) => {
                 through: { attributes: ['isOrganiser'] } // this will remove the rows from the join table (i.e. 'UserPubCrawl table') in the result set
             }
         ]
->>>>>>> maria
     })
         .then(user => {
             res.json(user[0]);

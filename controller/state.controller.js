@@ -67,8 +67,6 @@ exports.state_delete = (req,res,next) => {
     })
 }
 
-<<<<<<< HEAD
-=======
 exports.states_by_country = (req,res,next)=>{
     const id = req.params.id;
     State.findAll({
@@ -85,5 +83,4 @@ exports.states_by_country = (req,res,next)=>{
     })
 }
 
->>>>>>> maria
 

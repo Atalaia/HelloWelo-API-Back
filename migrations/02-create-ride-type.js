@@ -13,11 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       photoURL: {
-<<<<<<< HEAD
-        allowNull: false,
-=======
         allowNull: true,
->>>>>>> maria
         type: Sequelize.STRING
       },
       createdAt: {

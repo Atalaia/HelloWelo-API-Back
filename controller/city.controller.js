@@ -67,9 +67,6 @@ exports.city_delete = (req,res,next) => {
     })
 }
 
-<<<<<<< HEAD
-
-=======
 exports.cities_by_state = (req,res,next)=>{
     const id = req.params.id;
     City.findAll({
@@ -85,4 +82,3 @@ exports.cities_by_state = (req,res,next)=>{
         res.json({message : 'No cities found'});
     })
 }
->>>>>>> maria

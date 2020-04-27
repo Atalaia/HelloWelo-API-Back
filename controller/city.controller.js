@@ -67,4 +67,22 @@ exports.city_delete = (req,res,next) => {
     })
 }
 
+<<<<<<< HEAD
 
+=======
+exports.cities_by_state = (req,res,next)=>{
+    const id = req.params.id;
+    City.findAll({
+        where: {
+            stateId: id
+        }
+    })
+    .then(citiesByState => {
+        res.json(citiesByState);
+    })
+    .catch(error=>{
+        res.status(400);
+        res.json({message : 'No cities found'});
+    })
+}
+>>>>>>> maria

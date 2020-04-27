@@ -8,14 +8,25 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     meetingPoint: DataTypes.TEXT,
     itinerary: DataTypes.TEXT,
+<<<<<<< HEAD
     numberMaxParticipants: DataTypes.INTEGER
+=======
+    numberMaxParticipants: DataTypes.INTEGER,
+    numberParticipants: DataTypes.INTEGER
+>>>>>>> maria
   }, {});
   BikeRide.associate = function(models) {
+    BikeRide.belongsToMany(models.User, {
+      through: 'Participant'
+    }),
+    // BikeRide.belongsToMany(models.User, {
+    //   through: 'Comment'
+    // }),
     // associations can be defined here
     BikeRide.belongsTo(models.RideType, {
       onDelete: "NO ACTION",
       foreignKey: {
-        allowNull: false
+        allowNull: true
       }
     }),
     BikeRide.belongsTo(models.RideLevel, {
@@ -39,5 +50,6 @@ module.exports = (sequelize, DataTypes) => {
     BikeRide.hasMany(models.Participant);
     BikeRide.hasMany(models.Comment);
   };
+
   return BikeRide;
-};
+}
